@@ -2,10 +2,14 @@ import { UserRepoInterface } from "../interface/repo/auth.interface";
 import { IUser } from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/token";
+import {
+  loginServiceInterface,
+  createUserServiceInterface,
+} from "../interface/service/auth.interface";
 
-export class createUserService {
+export class createUserService implements createUserServiceInterface {
   constructor(private userRepo: UserRepoInterface) {}
-  public async singup(data: Partial<IUser>): Promise<IUser> {
+  public async signup(data: Partial<IUser>): Promise<IUser> {
     try {
       const { password } = data;
       const salt = await bcrypt.genSalt(10);
@@ -21,7 +25,7 @@ export class createUserService {
   }
 }
 
-export class loginService {
+export class loginService implements loginServiceInterface {
   constructor(private userRepo: UserRepoInterface) {}
   public async login(
     data: Partial<IUser>
@@ -54,4 +58,5 @@ export class loginService {
       throw new Error(err.message);
     }
   }
+
 }

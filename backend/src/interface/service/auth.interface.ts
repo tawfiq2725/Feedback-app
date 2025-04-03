@@ -1,10 +1,12 @@
 import { IUser } from "../../models/user.model";
-import { Token } from "../../types/auth.types";
 
-export interface AuthInterface {
-  login: (data: Partial<IUser>) => Promise<{ user: IUser; token: Token }>;
+export interface loginServiceInterface {
+  login: (data: Partial<IUser>) => Promise<{ user: IUser; token: string }>;
+}
+export interface createUserServiceInterface {
   signup: (data: Partial<IUser>) => Promise<IUser>;
-  logout: () => Promise<void>;
+}
+export interface feedbackServiceInterface {
   addFeedback: (feedback: any) => Promise<any>;
   getFeedbacks: () => Promise<any>;
   getFeedbackById: (id: string) => Promise<any>;
