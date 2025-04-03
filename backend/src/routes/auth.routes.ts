@@ -1,12 +1,9 @@
 import express from "express";
-
+import { authController } from "../container/auth.dI";
 const router = express.Router();
 
-// router.post("/login");
-// router.post("/signup");
-// router.get("/logout");
-// router.post("/add-feedback");
-// router.get("/feedbacks");
-// router.get("/feedback/:id");
+router.post("/register", authController.signup.bind(authController));
+router.post("/login", authController.login.bind(authController));
+router.get("/logout", authController.logout.bind(authController));
 
 export default router;
