@@ -33,6 +33,7 @@ export class AuthController {
       sendJsonResponse(res, HttpStatus.OK, true, "Login successful", {
         userDetails: user.user,
         token: user.token,
+        role: "user",
       });
     } catch (error) {
       next(error);
@@ -41,8 +42,9 @@ export class AuthController {
 
   public async signup(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password } = req.body;
+      const { name, email, password } = req.body;
       const data = {
+        name,
         email,
         password,
         isAdmin: false,
@@ -55,7 +57,7 @@ export class AuthController {
         "User Created Successfully",
         user
       );
-    } catch (error) {
+    } catch (error: any) {
       next(error);
     }
   }
