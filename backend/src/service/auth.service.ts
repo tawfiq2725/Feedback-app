@@ -20,7 +20,7 @@ export class createUserService implements createUserServiceInterface {
       });
       return user;
     } catch (err: any) {
-      throw new Error(err.message);
+      throw new Error(err);
     }
   }
 }
