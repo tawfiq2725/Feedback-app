@@ -9,3 +9,12 @@ export const generateToken = (
   });
   return token;
 };
+
+export const verifyToken = (token: string, secret: string): PayloadToken => {
+  try {
+    const decoded = jwt.verify(token, secret) as PayloadToken;
+    return decoded;
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
+};
