@@ -29,7 +29,7 @@ export class AuthController {
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       });
-      res.setHeader("Auth", `Bearer ${user.token}`);
+      res.setHeader("authroization", `Bearer ${user.token}`);
       sendJsonResponse(res, HttpStatus.OK, true, "Login successful", {
         userDetails: user.user,
         token: user.token,

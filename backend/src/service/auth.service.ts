@@ -50,6 +50,7 @@ export class loginService implements loginServiceInterface {
       const payload = {
         _id: user._id,
         email: user.email,
+        role: "user",
       };
 
       const token = generateToken(payload, secret);
@@ -58,5 +59,4 @@ export class loginService implements loginServiceInterface {
       throw new Error(err.message);
     }
   }
-
 }

@@ -13,7 +13,7 @@ export class AuthRepository implements UserRepoInterface {
   }
   public async getAllUsers(): Promise<IUser[]> {
     try {
-      return await userSchema.find();
+      return await userSchema.find({ isAdmin: false });
     } catch (error) {
       console.error("Error fetching users:", error);
       throw new Error("Failed to fetch users");

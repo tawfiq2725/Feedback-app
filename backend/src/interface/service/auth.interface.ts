@@ -11,3 +11,14 @@ export interface feedbackServiceInterface {
   getFeedbacks: () => Promise<any>;
   getFeedbackById: (id: string) => Promise<any>;
 }
+
+export interface adminServiceInterface {
+  adminLogin: (
+    data: Partial<IUser>
+  ) => Promise<{ admin: IUser; token: string }>;
+}
+
+export interface getUserService {
+  getUserById: (id: string) => Promise<IUser | null>;
+  getAllUsers: () => Promise<IUser[]>;
+}
