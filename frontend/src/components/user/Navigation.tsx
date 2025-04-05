@@ -1,9 +1,23 @@
 import { MessageSquare } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/store";
+import useApi from "../../hook/useApi";
+import { toast } from "react-toastify";
 
 const Navigation = () => {
-  const { isAuthenticated, user } = useUserStore((state) => state);
+  const { isAuthenticated, user, clearUser } = useUserStore((state) => state);
+  const navigation = useNavigate();
+  const { data, refetch } = useApi({
+    url: "/user/logout",
+    method: "get",
+    autoFetch: false,
+  });
+  const handlelogout = () => {
+    toast.success(data?.message || "Logout successful");
+    clearUser();
+    refetch();
+    navigation("/");
+  };
   return (
     <nav className="bg-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,9 +42,7 @@ const Navigation = () => {
                   {user?.name}
                 </Link>
                 <button
-                  onClick={() => {
-                    
-                  }}
+                  onClick={handlelogout}
                   className="bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out"
                 >
                   Logout
