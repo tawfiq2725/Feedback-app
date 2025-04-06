@@ -2,7 +2,7 @@
 
 A full-featured MERN stack feedback application with robust token-based authentication, session handling, and role-based authorization (Admin & User). This application lets users submit feedback through a clean, responsive interface, view previous submissions, and preview detailed feedback. The backend is built with Node, Express, TypeScript, MongoDB (using the repository pattern) and hosted on AWS EC2, while the frontend is developed with React and deployed on Vercel.
 
-![MERN Feedback App](https://via.placeholder.com/800x400?text=MERN+Feedback+App)
+![MERN Feedback App](https://wallpapercave.com/wp/wp8903893.jpg)
 
 ## Features
 
