@@ -46,6 +46,19 @@ export class AdminService implements adminServiceInterface {
 
     return { admin, token };
   }
+
+  public async getDashboardData(): Promise<{
+    totalUsers: number;
+    totalFeedbacks: number;
+  }> {
+    try {
+      const totalUsers = await this.userRepo.countUsers();
+      const totalFeedbacks = await this.userRepo.countFeedbacks();
+      return { totalUsers, totalFeedbacks };
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
 }
 
 export class GetUserService implements getUserService {

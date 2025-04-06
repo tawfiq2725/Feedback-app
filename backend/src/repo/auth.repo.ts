@@ -1,4 +1,5 @@
 import { UserRepoInterface } from "../interface/repo/auth.interface";
+import { Feedback } from "../models/feedback.model";
 import userSchema, { IUser } from "../models/user.model";
 
 export class AuthRepository implements UserRepoInterface {
@@ -33,6 +34,22 @@ export class AuthRepository implements UserRepoInterface {
     } catch (error) {
       console.error("Error fetching user by email:", error);
       throw new Error("Failed to fetch user by email");
+    }
+  }
+  public async countUsers(): Promise<number> {
+    try {
+      return await userSchema.countDocuments({ isAdmin: false });
+    } catch (error) {
+      console.error("Error counting users:", error);
+      throw new Error("Failed to count users");
+    }
+  }
+  public async countFeedbacks(): Promise<number> {
+    try {
+      return await Feedback.countDocuments();
+    } catch (error) {
+      console.error("Error counting feedbacks:", error);
+      throw new Error("Failed to count feedbacks");
     }
   }
 }

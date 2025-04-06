@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/urlConfig";
-import { toast } from "react-toastify";
+import { useUserStore } from "../store/store";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL(),
@@ -18,15 +18,8 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      localStorage.removeItem("authToken");
-      window.location.href = "/login";
+      useUserStore.getState().clearUser();
     }
-    toast.error(
-      error?.response?.data?.message ||
-        error?.message ||
-        "An error occurred. Please try again."
-    );
-
     return Promise.reject(error);
   }
 );

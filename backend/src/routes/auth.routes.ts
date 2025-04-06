@@ -11,4 +11,6 @@ router.get(
   authController.logout.bind(authController)
 );
 
+
+
 export default router;

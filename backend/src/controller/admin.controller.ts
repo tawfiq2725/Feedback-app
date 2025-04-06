@@ -32,6 +32,7 @@ export class AdminController {
       sendJsonResponse(res, HttpStatus.OK, true, "Login successful", {
         userDetails: admin.admin,
         token: admin.token,
+        role:"admin"
       });
     } catch (error: any) {
       next(error);
@@ -82,6 +83,15 @@ export class AdminController {
       );
     } catch (error) {
       next(error);
+    }
+  }
+
+  public async getDashboardData(req:Request,res:Response,next:NextFunction):Promise<void>{
+    try{
+      const data = await this.adminService.getDashboardData()
+      sendJsonResponse(res,HttpStatus.OK,true,"Dashboard data fetched successfully",data)
+    }catch(error){
+      next(error)
     }
   }
 }

@@ -7,7 +7,7 @@ import { JSX } from "react";
 const PublicRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useUserStore();
 
-  return isAuthenticated ? <Navigate to="/auth/dashboard" replace /> : children;
+  return isAuthenticated ? <Navigate to="/" replace /> : children;
 };
 
 export default PublicRoute;

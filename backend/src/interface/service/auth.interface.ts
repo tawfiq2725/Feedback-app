@@ -16,6 +16,7 @@ export interface adminServiceInterface {
   adminLogin: (
     data: Partial<IUser>
   ) => Promise<{ admin: IUser; token: string }>;
+  getDashboardData:()=>Promise<{totalUsers:number,totalFeedbacks:number}>;
 }
 
 export interface getUserService {

@@ -11,9 +11,9 @@ router.get(
   adminController.getAllUsers.bind(adminController)
 );
 router.get(
-  "/user/:id",
+  "/dashboard",
   authMiddleware(["admin"]),
-  adminController.getUserById.bind(adminController)
+  adminController.getDashboardData.bind(adminController)
 );
 
 export default router;

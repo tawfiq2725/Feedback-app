@@ -2,20 +2,18 @@ import { MessageSquare } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/store";
 import useApi from "../../hook/useApi";
-import { toast } from "react-toastify";
 
 const Navigation = () => {
-  const { isAuthenticated, user, clearUser } = useUserStore((state) => state);
+  const { role,isAuthenticated, user, clearUser } = useUserStore((state) => state);
   const navigation = useNavigate();
-  const { data, refetch } = useApi({
+  const {  refetch } = useApi({
     url: "/user/logout",
     method: "get",
     autoFetch: false,
   });
-  const handlelogout = () => {
-    toast.success(data?.message || "Logout successful");
-    clearUser();
+  const handlelogout = () => {;
     refetch();
+    clearUser();
     navigation("/");
   };
   return (
@@ -34,11 +32,10 @@ const Navigation = () => {
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
                 <Link
-                  to="/dashboard"
+                  to={role === 'admin' ? '/admin/auth/dashboard' : '/auth/dashboard'}
                   className="text-gray-700 hover:text-indigo-600 font-medium transition duration-150 ease-in-out flex items-center"
                 >
                   <span className="mr-2">👤</span>
-                  {/* Replace with actual username from your state */}
                   {user?.name}
                 </Link>
                 <button

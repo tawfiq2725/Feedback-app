@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Eye, EyeOff, MessageSquare } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useApi from "../../hook/useApi";
+import { toast } from "react-toastify";
 import { useUserStore } from "../../store/store";
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,6 +19,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { setAuth, setUser } = useUserStore((state) => state);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -61,13 +63,14 @@ const LoginPage = () => {
   };
 
   const { data, loading, refetch } = useApi({
-    url: "/user/login",
+    url: "/admin/login",
     method: "post",
     body: formData,
     params: null,
     autoFetch: false,
   });
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!loading) {
       setIsSubmitting(false);
@@ -75,7 +78,7 @@ const LoginPage = () => {
         setUser(data.data.userDetails);
         setAuth(data.data.role, data.data.token);
         localStorage.setItem("authToken", data.data.token);
-        navigate("/auth/dashboard", { replace: true });
+        navigate("/admin/dashboard", { replace: true });
 
         setFormData({
           email: "",
@@ -83,7 +86,7 @@ const LoginPage = () => {
         });
       } else {
         if (data && data.message) {
-          console.log(data.message);
+          toast.error(data.message);
         }
       }
     }
@@ -96,7 +99,7 @@ const LoginPage = () => {
       setIsSubmitting(true);
       refetch();
       setTimeout(() => {
-        console.log("Login successful", formData);
+        console.log("Admin login successful", formData);
         setIsSubmitting(false);
       }, 1500);
     }
@@ -109,10 +112,10 @@ const LoginPage = () => {
           <MessageSquare className="h-12 w-12 text-indigo-600" />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to FeedPulse
+          Admin Sign in to FeedPulse
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
-          Get back to collecting valuable feedback
+          Enter your admin credentials to manage the system
         </p>
       </div>
 
@@ -137,7 +140,7 @@ const LoginPage = () => {
                   className={`appearance-none block w-full px-3 py-2 border ${
                     errors.email ? "border-red-300" : "border-gray-300"
                   } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                  placeholder="you@example.com"
+                  placeholder="admin@example.com"
                 />
                 {errors.email && (
                   <p className="mt-2 text-sm text-red-600">{errors.email}</p>
@@ -197,12 +200,12 @@ const LoginPage = () => {
 
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{" "}
+              Back to{" "}
               <Link
-                to={"/signup"}
+                to={"/"}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Sign up
+                Home
               </Link>
             </p>
           </div>
@@ -212,4 +215,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

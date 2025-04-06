@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../api/axios";
 import { ApiTypes, Data } from "../types/api.types";
+import { toast } from "react-toastify";
 
 const useApi = ({
   url,
@@ -24,8 +25,10 @@ const useApi = ({
         params,
       });
       setData(response.data);
+      toast.success(response.data.message);
     } catch (err: any) {
       setError(err);
+      toast.error(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }

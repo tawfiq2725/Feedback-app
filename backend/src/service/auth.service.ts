@@ -36,6 +36,9 @@ export class loginService implements loginServiceInterface {
       if (!user) {
         throw new Error("User not found");
       }
+      if(user.isAdmin){
+        throw new Error("User is not an admin");
+      }
       const isMatch = await bcrypt.compare(password!, user.password!);
       if (!isMatch) {
         throw new Error("Invalid credentials");

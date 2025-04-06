@@ -1,20 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   FormInput,
   MessageSquare,
-  Settings,
   LogOut,
   X,
   ChevronRight,
 } from "lucide-react";
 import { useUserStore } from "../store/store";
 import FeedbackForm from "../components/user/Feedback";
+import useApi from "../hook/useApi";
+import { useNavigate } from "react-router-dom";
+import Feedbacks from "../components/user/FeedbackUser";
 
 const Dashboard = () => {
+  const { user, clearUser } = useUserStore((state) => state);
+  const navigation = useNavigate();
+  const { data, loading, refetch } = useApi({
+    url: "/user/logout",
+    method: "get",
+    body: null,
+    autoFetch: false,
+  });
+  useEffect(() => {
+    if (!loading) {
+      if (data && data.success) {
+        setTimeout(() => {
+          navigation("/");
+        }, 1000);
+      }
+    }
+  }, [loading]);
+  const handlelogout = () => {
+    refetch();
+    clearUser();
+  };
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activePage, setActivePage] = useState("dashboard");
-  const { user } = useUserStore((state) => state);
 
   const toggleSidebar = () => {
     setSidebarCollapsed(!sidebarCollapsed);
@@ -91,26 +113,16 @@ const Dashboard = () => {
                 {!sidebarCollapsed && <span className="ml-3">Responses</span>}
               </button>
             </li>
-            <li>
-              <button
-                onClick={() => setActivePage("settings")}
-                className={`flex items-center w-full p-2 rounded-md ${
-                  activePage === "settings"
-                    ? "bg-indigo-900 text-white"
-                    : "text-indigo-200 hover:bg-indigo-700"
-                }`}
-              >
-                <Settings className="h-5 w-5" />
-                {!sidebarCollapsed && <span className="ml-3">Settings</span>}
-              </button>
-            </li>
           </ul>
         </nav>
 
         {/* User Profile */}
-        <div className="p-4 border-t border-indigo-700">
+        <div className="p-4 border-t border-indigo-700 hover:bg-indigo-700">
           {!sidebarCollapsed && (
-            <button className="mt-4 flex items-center text-indigo-200 hover:text-white text-sm">
+            <button
+              onClick={handlelogout}
+              className="mt-4 py-2 flex items-center text-indigo-200 hover:text-white text-sm"
+            >
               <LogOut className="h-4 w-4 mr-2" />
               Logout
             </button>
@@ -154,19 +166,16 @@ const Dashboard = () => {
                   {user?.isAdmin ? "Admin" : "User"}
                 </p>
               </div>
+              <div className="bg-gray-50 p-4 rounded-md">
+                <p className="text-gray-600 font-medium">Total Feedbacks:</p>
+                <p className="text-gray-900 text-lg">{user?.count}</p>
+              </div>
             </div>
           )}
 
           {activePage === "feedbackForm" && <FeedbackForm />}
 
-          {activePage !== "dashboard" && activePage !== "feedbackForm" && (
-            <div className="bg-white shadow-sm rounded-lg p-6 flex items-center justify-center h-64">
-              <p className="text-gray-500">
-                {activePage === "responses" && "Responses Content"}
-                {activePage === "settings" && "Settings Content"}
-              </p>
-            </div>
-          )}
+          {activePage === "responses" && <Feedbacks />}
         </main>
       </div>
     </div>

@@ -8,6 +8,8 @@ import LoginPage from "./components/user/Login";
 import SignupPage from "./components/user/Signup";
 import PublicRoute from "./components/PublicRoutes";
 import Dashboard from "./pages/Dashboard";
+import AdminLoginPage from "./components/admin/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
 
 export const App = () => {
   return (
@@ -32,19 +34,25 @@ export const App = () => {
               </PublicRoute>
             }
           />
-          <Route path="/admin/login" element={<h1>Admin Login</h1>} />
+          <Route
+            path="/admin/login"
+            element={
+              <PublicRoute>
+                <AdminLoginPage />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/auth/*"
             element={<ProtectedRoute requiredRole="user" />}
           >
-            <Route path="feedback/form" element={<h1>Form</h1>} />
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
           <Route
             path="/admin/auth/*"
             element={<ProtectedRoute requiredRole="admin" />}
           >
-            <Route path="dashboard" element={<h1>Admin Dashboard</h1>} />
+            <Route path="dashboard" element={<AdminDashboard/>} />
             <Route path="users" element={<h1>Users</h1>} />
             <Route path="user/:id/feedbacks" element={<h1>All Feedbacks</h1>} />
             <Route

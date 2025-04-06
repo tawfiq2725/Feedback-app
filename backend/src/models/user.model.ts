@@ -5,6 +5,7 @@ export interface IUser {
   email: string;
   password: string;
   isAdmin: boolean;
+  count: number;
   _id?: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -28,6 +29,10 @@ const userSchema = new mongoose.Schema<IUser>(
     isAdmin: {
       type: Boolean,
       default: false,
+    },
+    count: {
+      type: Number,
+      default: 0,
     },
   },
   {

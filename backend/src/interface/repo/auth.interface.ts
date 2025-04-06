@@ -5,4 +5,6 @@ export interface UserRepoInterface {
   getAllUsers: () => Promise<IUser[]>;
   getUserById: (id: string) => Promise<IUser | null>;
   findUserByEmail: (email: string) => Promise<IUser | null>;
+  countUsers: () => Promise<number>;
+  countFeedbacks: () => Promise<number>;
 }
